@@ -2,6 +2,7 @@ export interface EmployeeQuery {
   page?: number;
   limit?: number;
   search?: string;
+  mode?: string;
   department?: string;
   country?: string;
   designation?: string;
