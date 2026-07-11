@@ -1,13 +1,60 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
 generator client {
-  provider = "prisma-client"
-  output   = "../generated/prisma"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Employee {
+  id           Int       @id @default(autoincrement())
+  employeeId   String    @unique
+  firstName    String
+  lastName     String
+  email        String    @unique
+  designation  String
+
+  departmentId Int
+  department   Department @relation(fields: [departmentId], references: [id])
+
+  countryId    Int
+  country      Country    @relation(fields: [countryId], references: [id])
+
+  salaries     Salary[]
+
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Department {
+  id        Int        @id @default(autoincrement())
+  name      String     @unique
+
+  employees Employee[]
+}
+
+model Country {
+  id        Int        @id @default(autoincrement())
+  name      String     @unique
+  currency  String
+
+  employees Employee[]
+}
+
+model Salary {
+  id            Int      @id @default(autoincrement())
+
+  employeeId    Int
+  employee      Employee @relation(fields: [employeeId], references: [id])
+
+  baseSalary    Float
+  currency      String
+
+  effectiveFrom DateTime
+  effectiveTo   DateTime?
+
+  isCurrent     Boolean @default(true)
+
+  createdAt     DateTime @default(now())
 }
