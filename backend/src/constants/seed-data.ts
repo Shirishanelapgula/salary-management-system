@@ -30,4 +30,4 @@ const designations = [
   "Vice President",
 ];
 
-module.exports = { departments, countries, designations };
+export = { departments, countries, designations };
