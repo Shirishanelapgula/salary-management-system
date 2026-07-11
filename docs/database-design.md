@@ -8,7 +8,7 @@ The Salary Management System is designed to support 10,000 employees with effici
 
 ## Tables
 
-### Employee
+### Employee Table
 
 | Field | Type |
 |--------|------|
@@ -25,7 +25,7 @@ The Salary Management System is designed to support 10,000 employees with effici
 
 ---
 
-### Department
+### Department Table
 
 | Field | Type |
 |--------|------|
