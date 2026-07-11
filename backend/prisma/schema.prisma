@@ -8,23 +8,27 @@ datasource db {
 }
 
 model Employee {
-  id           Int       @id @default(autoincrement())
-  employeeId   String    @unique
+  id           Int      @id @default(autoincrement())
+  employeeId   String   @unique
   firstName    String
   lastName     String
-  email        String    @unique
+  email        String   @unique
   designation  String
 
   departmentId Int
   department   Department @relation(fields: [departmentId], references: [id])
 
   countryId    Int
-  country      Country    @relation(fields: [countryId], references: [id])
+  country      Country @relation(fields: [countryId], references: [id])
 
   salaries     Salary[]
 
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+
+  @@index([departmentId])
+  @@index([countryId])
+  @@index([designation])
 }
 
 model Department {
@@ -57,4 +61,7 @@ model Salary {
   isCurrent     Boolean @default(true)
 
   createdAt     DateTime @default(now())
+
+  @@index([employeeId])
+  @@index([isCurrent])
 }
