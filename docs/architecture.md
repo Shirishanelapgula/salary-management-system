@@ -1,115 +1,183 @@
-# Salary Management System
+# Salary Management System Architecture
 
-## Goal
+## High Level Architecture
 
-Build a web-based Salary Management System that enables HR Managers to efficiently manage salary information for 10,000 employees across multiple countries. The application should replace spreadsheet-based workflows with a scalable, searchable, and maintainable solution.
+```
 
----
+             React Frontend
+                    |
+               REST API
+                    |
+          Express + TypeScript
+                    |
+          Service Layer
+                    |
+        Repository Layer
+                    |
+             Prisma ORM
+                    |
+              SQLite Database
 
-## Problem Statement
-
-The HR team currently manages employee salary information using Excel spreadsheets, making it difficult to:
-
-- Maintain accurate salary records
-- Search employee information quickly
-- Generate salary insights
-- Analyze payroll across countries and departments
-- Answer business questions efficiently
-
----
-
-## Target User
-
-Primary User:
-
-- HR Manager
+```
 
 ---
 
-## Functional Requirements
+## Architecture Style
 
-### Employee Management
+The application follows a layered architecture:
 
-- Add Employee
-- Edit Employee
-- Delete Employee
-- View Employee
-- Search Employee
-- Paginated Employee List
+Presentation Layer
 
-### Salary Management
+- React UI
+- Forms
+- Tables
+- Dashboard
 
-- Assign Salary
-- Update Salary
-- View Salary Details
-- Maintain Salary History
+Application Layer
 
-### Dashboard
+- REST Controllers
+- Validation
+- Request handling
 
-- Total Employees
-- Total Payroll
-- Average Salary
-- Highest Salary
-- Country-wise Employee Count
+Business Layer
 
-### AI Assistant
+- Employee Service
+- Salary Service
+- AI Query Service
 
-Allow HR to ask questions in natural language such as:
+Data Layer
 
-- What is the average salary?
-- Who earns the highest salary?
-- Show employees earning above ₹20 LPA.
-- Which department has the highest payroll?
-
----
-
-## Non Functional Requirements
-
-- Support 10,000 employees
-- Responsive UI
-- Fast search
-- Maintainable architecture
-- Unit tested
-- Type-safe
-- Modular codebase
-
----
-
-## Out of Scope
-
-- Authentication
-- Authorization
-- Payroll processing
-- Tax calculations
-- Email notifications
-- Multi-user collaboration
-
----
-
-## Technology Stack
-
-Frontend:
-- React
-- TypeScript
-
-Backend:
-- Node.js
-- Express
-- TypeScript
-
-Database:
+- Repository Pattern
+- Prisma ORM
 - SQLite
 
-Testing:
-- Vitest / Jest
+---
+
+## Why this Architecture?
+
+Benefits
+
+- Separation of concerns
+- Easy testing
+- Maintainable
+- Easy to replace database
+- Scalable
 
 ---
 
-## Success Criteria
+## Frontend Architecture
 
-The application should:
+Pages
 
-- Manage 10,000 employees smoothly
-- Provide a clean HR experience
-- Enable AI-powered salary queries
-- Demonstrate production-quality engineering practices
+- Dashboard
+- Employees
+- Employee Details
+- Salary Management
+- AI Assistant
+
+Reusable Components
+
+- Employee Table
+- Salary Card
+- Search Bar
+- Pagination
+- Dashboard Cards
+- AI Chat Box
+
+---
+
+## Backend Structure
+
+src
+
+controllers/
+
+services/
+
+repositories/
+
+routes/
+
+middleware/
+
+utils/
+
+config/
+
+seed/
+
+tests/
+
+---
+
+## Database
+
+Tables
+
+Employee
+
+Salary
+
+Department
+
+Country
+
+---
+
+## Performance
+
+Designed for
+
+10,000 employees
+
+Optimizations
+
+- Pagination
+- Indexed search
+- Lazy loading
+- Server-side filtering
+
+---
+
+## Testing Strategy
+
+Unit Tests
+
+- Services
+
+Integration Tests
+
+- API Endpoints
+
+Frontend
+
+- Component Tests
+
+---
+
+## AI Assistant
+
+Users can ask:
+
+"What is average salary?"
+
+"Who earns the most?"
+
+"Employees earning above 20 LPA"
+
+"Payroll by country"
+
+The backend converts the question into structured database queries and returns summarized results.
+
+---
+
+## Future Improvements
+
+- Authentication
+- Role Based Access
+- PostgreSQL
+- Redis Caching
+- Audit Logs
+- Export Reports
+- Charts
+- AI Insights
