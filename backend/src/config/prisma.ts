@@ -1,19 +1,16 @@
-// Use CommonJS-compatible syntax to avoid ESM import/export issues
-const { PrismaClient } = require("@prisma/client");
+import { PrismaClient } from "@prisma/client";
 
 declare global {
   // eslint-disable-next-line no-var
-  var prisma: any | undefined;
+  var prisma: PrismaClient | undefined;
 }
 
-const prismaClient =
+export const prisma =
   global.prisma ??
   new PrismaClient({
     log: ["query", "warn", "error"],
   });
 
 if (process.env.NODE_ENV !== "production") {
-  global.prisma = prismaClient;
+  global.prisma = prisma;
 }
-
-module.exports = { prisma: prismaClient };

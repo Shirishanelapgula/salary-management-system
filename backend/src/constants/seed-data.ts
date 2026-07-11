@@ -1,4 +1,4 @@
-const departments = [
+export const departments = [
   "Engineering",
   "Human Resources",
   "Finance",
@@ -9,7 +9,7 @@ const departments = [
   "Legal",
 ];
 
-const countries = [
+export const countries = [
   { name: "India", currency: "INR" },
   { name: "United States", currency: "USD" },
   { name: "United Kingdom", currency: "GBP" },
@@ -20,7 +20,7 @@ const countries = [
   { name: "Japan", currency: "JPY" },
 ];
 
-const designations = [
+export const designations = [
   "Intern",
   "Software Engineer",
   "Senior Software Engineer",
@@ -30,4 +30,3 @@ const designations = [
   "Vice President",
 ];
 
-export = { departments, countries, designations };

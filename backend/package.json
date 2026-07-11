@@ -4,13 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "seed": "tsx src/seed/seed.ts"
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "seed": "tsx src/seed/seed.ts",
+    "test": "vitest"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "dependencies": {
     "@faker-js/faker": "^10.5.0",
     "@prisma/client": "^6.19.3",
@@ -33,7 +36,7 @@
     "prettier": "^3.9.5",
     "supertest": "^7.2.2",
     "tsx": "^4.23.0",
-    "typescript": "^7.0.2",
+    "typescript": "^5.9.2",
     "vitest": "^4.1.10"
   }
 }
