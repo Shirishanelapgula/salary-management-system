@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { dashboardService } from "../services/dasboard.service.js";
+import { dashboardService } from "../services/dashboard.service.js";
 import { ApiResponse } from "../utils/api-response.js";
 
 export class DashboardController {
