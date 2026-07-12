@@ -1,63 +1,43 @@
-export interface Department {
-  id: number;
-  name: string;
-}
-
-
-export interface Country {
-  id: number;
-  name: string;
-  currency: string;
-}
-
-
 export interface Employee {
   id: number;
-
   employeeId: string;
-
   firstName: string;
-
   lastName: string;
-
   email: string;
-
   designation: string;
 
-  department: Department;
+  department: {
+    id: number;
+    name: string;
+  };
 
-  country: Country;
+  country: {
+    id: number;
+    name: string;
+    currency: string;
+  };
+
+  salary?: {
+    id: number;
+    baseSalary: number;
+    currency: string;
+  };
 
   createdAt: string;
-
   updatedAt: string;
 }
 
-
 export interface EmployeeResponse {
   data: Employee[];
-
   total: number;
-
   page: number;
-
   limit: number;
-
-  totalPages: number;
 }
 
-
-export interface EmployeePayload {
-
-  firstName: string;
-
-  lastName: string;
-
-  email: string;
-
-  designation: string;
-
-  departmentId: number;
-
-  countryId: number;
+export interface EmployeeQuery {
+  page: number;
+  limit: number;
+  search?: string;
+  department?: string;
+  country?: string;
 }

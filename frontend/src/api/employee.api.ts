@@ -1,64 +1,53 @@
 import api from "./axios";
-
-export interface EmployeeQueryParams {
-  page?: number;
-  limit?: number;
-  search?: string;
-  departmentId?: number;
-  countryId?: number;
-}
+import type { EmployeeQuery } from "../types/employee.types";
 
 export const getEmployees = async (
-  params?: EmployeeQueryParams
+  params: EmployeeQuery
 ) => {
-  const response = await api.get("/employees", {
+  const { data } = await api.get("/employees", {
     params,
   });
 
-  return response.data;
+  return data;
 };
 
-
-export const getEmployeeById = async (
+export const getEmployee = async (
   id: number
 ) => {
-  const response = await api.get(`/employees/${id}`);
+  const { data } = await api.get(`/employees/${id}`);
 
-  return response.data;
+  return data;
 };
-
 
 export const createEmployee = async (
   payload: unknown
 ) => {
-  const response = await api.post(
+  const { data } = await api.post(
     "/employees",
     payload
   );
 
-  return response.data;
+  return data;
 };
-
 
 export const updateEmployee = async (
   id: number,
   payload: unknown
 ) => {
-  const response = await api.put(
+  const { data } = await api.put(
     `/employees/${id}`,
     payload
   );
 
-  return response.data;
+  return data;
 };
-
 
 export const deleteEmployee = async (
   id: number
 ) => {
-  const response = await api.delete(
+  const { data } = await api.delete(
     `/employees/${id}`
   );
 
-  return response.data;
+  return data;
 };

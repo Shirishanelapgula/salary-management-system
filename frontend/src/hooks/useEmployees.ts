@@ -1,29 +1,15 @@
-import {
-  useQuery
-} from "@tanstack/react-query";
-
-import {
-  getEmployees,
-  type EmployeeQueryParams
-} from "../api/employee.api";
-
+import { useQuery } from "@tanstack/react-query";
+import { getEmployees } from "../api/employee.api";
+import type { EmployeeQuery } from "../types/employee.types";
 
 export function useEmployees(
-  params: EmployeeQueryParams
+  params: EmployeeQuery
 ) {
-
   return useQuery({
+    queryKey: ["employees", params],
 
-    queryKey: [
-      "employees",
-      params
-    ],
+    queryFn: () => getEmployees(params),
 
-    queryFn: () =>
-      getEmployees(params),
-
-    staleTime: 30000
-
+    staleTime: 1000 * 60,
   });
-
 }

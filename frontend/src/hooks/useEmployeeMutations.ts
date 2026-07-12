@@ -1,93 +1,58 @@
 import {
   useMutation,
-  useQueryClient
+  useQueryClient,
 } from "@tanstack/react-query";
-
 
 import {
   createEmployee,
   updateEmployee,
-  deleteEmployee
+  deleteEmployee,
 } from "../api/employee.api";
 
+export function useCreateEmployee() {
+  const queryClient = useQueryClient();
 
-export function useEmployeeMutations() {
+  return useMutation({
+    mutationFn: createEmployee,
 
-  const queryClient =
-    useQueryClient();
+    onSuccess() {
+      queryClient.invalidateQueries({
+        queryKey: ["employees"],
+      });
+    },
+  });
+}
 
+export function useUpdateEmployee() {
+  const queryClient = useQueryClient();
 
-  const create =
-    useMutation({
+  return useMutation({
+    mutationFn: ({
+      id,
+      payload,
+    }: {
+      id: number;
+      payload: unknown;
+    }) => updateEmployee(id, payload),
 
-      mutationFn:
-        createEmployee,
+    onSuccess() {
+      queryClient.invalidateQueries({
+        queryKey: ["employees"],
+      });
+    },
+  });
+}
 
+export function useDeleteEmployee() {
+  const queryClient = useQueryClient();
 
-      onSuccess() {
+  return useMutation({
+    mutationFn: deleteEmployee,
 
-        queryClient.invalidateQueries({
-          queryKey:["employees"]
-        });
-
-      }
-
-    });
-
-
-
-  const update =
-    useMutation({
-
-      mutationFn:
-        ({
-          id,
-          payload
-        }:{
-          id:number;
-          payload:unknown;
-        }) =>
-          updateEmployee(
-            id,
-            payload
-          ),
-
-
-      onSuccess(){
-
-        queryClient.invalidateQueries({
-          queryKey:["employees"]
-        });
-
-      }
-
-    });
-
-
-
-  const remove =
-    useMutation({
-
-      mutationFn:
-        deleteEmployee,
-
-
-      onSuccess(){
-
-        queryClient.invalidateQueries({
-          queryKey:["employees"]
-        });
-
-      }
-
-    });
-
-
-
-  return {
-    create,
-    update,
-    remove
-  };
-
+    onSuccess() {
+      queryClient.invalidateQueries({
+        queryKey: ["employees"],
+      });
+    },
+  });
 }
