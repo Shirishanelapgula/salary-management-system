@@ -10,6 +10,6 @@ export function useEmployees(
 
     queryFn: () => getEmployees(params),
 
-    staleTime: 1000 * 60,
+    staleTime: 60000,
   });
 }

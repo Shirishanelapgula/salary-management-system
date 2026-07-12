@@ -1,5 +1,5 @@
 import api from "./axios";
-import type { EmployeeQuery } from "../types/employee.types";
+import type{ EmployeeQuery } from "../types/employee.types";
 
 export const getEmployees = async (
   params: EmployeeQuery
@@ -11,43 +11,25 @@ export const getEmployees = async (
   return data;
 };
 
-export const getEmployee = async (
-  id: number
-) => {
+export const getEmployee = async (id: number) => {
   const { data } = await api.get(`/employees/${id}`);
-
-  return data;
+  return data.data;
 };
 
-export const createEmployee = async (
-  payload: unknown
-) => {
-  const { data } = await api.post(
-    "/employees",
-    payload
-  );
-
-  return data;
+export const createEmployee = async (payload: unknown) => {
+  const { data } = await api.post("/employees", payload);
+  return data.data;
 };
 
 export const updateEmployee = async (
   id: number,
   payload: unknown
 ) => {
-  const { data } = await api.put(
-    `/employees/${id}`,
-    payload
-  );
-
-  return data;
+  const { data } = await api.put(`/employees/${id}`, payload);
+  return data.data;
 };
 
-export const deleteEmployee = async (
-  id: number
-) => {
-  const { data } = await api.delete(
-    `/employees/${id}`
-  );
-
+export const deleteEmployee = async (id: number) => {
+  const { data } = await api.delete(`/employees/${id}`);
   return data;
 };

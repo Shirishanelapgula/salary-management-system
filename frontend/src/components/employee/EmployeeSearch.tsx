@@ -1,46 +1,28 @@
-interface Props {
+import type { ChangeEvent } from "react";
 
-    value: string;
-
-    onChange(
-        value: string
-    ): void;
-
+interface EmployeeSearchProps {
+  value: string;
+  onChange: (value: string) => void;
 }
 
-
-export default function EmployeeSearch(
-    {
-        value,
-        onChange
-
-    }: Props) {
-
-    return (
-
-        <input
-
-            value={value}
-
-            onChange={
-                e =>
-                    onChange(
-                        e.target.value
-                    )
-            }
-
-            placeholder="Search employee..."
-
-            className="
-      border
-      rounded-lg
-      px-4
-      py-2
-      w-full
-      "
-
-        />
-
-    );
-
+export default function EmployeeSearch({
+  value,
+  onChange,
+}: EmployeeSearchProps) {
+  return (
+    <input
+      type="text"
+      placeholder="Search by name, email or Employee ID..."
+      value={value}
+      onChange={(e: ChangeEvent<HTMLInputElement>) =>
+        onChange(e.target.value)
+      }
+      style={{
+        width: "350px",
+        padding: "10px",
+        borderRadius: "6px",
+        border: "1px solid #ccc",
+      }}
+    />
+  );
 }

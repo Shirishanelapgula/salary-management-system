@@ -1,127 +1,72 @@
 interface Props {
+  department: string;
+  country: string;
 
-  departmentId?:number;
-
-  countryId?:number;
-
-
-  onDepartmentChange(
-    value:number | undefined
-  ):void;
-
-
-  onCountryChange(
-    value:number | undefined
-  ):void;
-
+  onDepartmentChange: (value: string) => void;
+  onCountryChange: (value: string) => void;
 }
 
+const departments = [
+  "",
+  "Engineering",
+  "HR",
+  "Finance",
+  "Sales",
+  "Marketing",
+];
 
+const countries = [
+  "",
+  "India",
+  "USA",
+  "UK",
+  "Canada",
+];
 
-export default function EmployeeFilters(
-{
- departmentId,
- countryId,
- onDepartmentChange,
- onCountryChange
+export default function EmployeeFilters({
+  department,
+  country,
+  onDepartmentChange,
+  onCountryChange,
+}: Props) {
+  return (
+    <div
+      style={{
+        display: "flex",
+        gap: "16px",
+      }}
+    >
+      <select
+        value={department}
+        onChange={(e) =>
+          onDepartmentChange(e.target.value)
+        }
+      >
+        {departments.map((item) => (
+          <option
+            key={item}
+            value={item}
+          >
+            {item || "All Departments"}
+          </option>
+        ))}
+      </select>
 
-}:Props){
-
-return (
-
-<div className="
-flex
-gap-4
-">
-
-<select
-
-value={
- departmentId ?? ""
-}
-
-onChange={
- e =>
- onDepartmentChange(
-   e.target.value
-   ?
-   Number(e.target.value)
-   :
-   undefined
- )
-}
-
-className="
-border
-rounded-lg
-px-3
-py-2
-"
-
->
-
-<option value="">
-All Departments
-</option>
-
-<option value="1">
-Engineering
-</option>
-
-<option value="2">
-HR
-</option>
-
-</select>
-
-
-
-<select
-
-value={
- countryId ?? ""
-}
-
-onChange={
- e =>
- onCountryChange(
-   e.target.value
-   ?
-   Number(e.target.value)
-   :
-   undefined
- )
-}
-
-className="
-border
-rounded-lg
-px-3
-py-2
-"
-
->
-
-<option value="">
-All Countries
-</option>
-
-
-<option value="1">
-India
-</option>
-
-
-<option value="2">
-USA
-</option>
-
-
-</select>
-
-
-</div>
-
-);
-
+      <select
+        value={country}
+        onChange={(e) =>
+          onCountryChange(e.target.value)
+        }
+      >
+        {countries.map((item) => (
+          <option
+            key={item}
+            value={item}
+          >
+            {item || "All Countries"}
+          </option>
+        ))}
+      </select>
+    </div>
+  );
 }
