@@ -8,6 +8,9 @@ export default function Sidebar() {
       </h2>
 
       <nav className="flex flex-col gap-4">
+        <NavLink to="/departments">
+          Departments
+        </NavLink>
         <NavLink to="/dashboard">Dashboard</NavLink>
         <NavLink to="/employees">Employees</NavLink>
         <NavLink to="/salary">Salary</NavLink>

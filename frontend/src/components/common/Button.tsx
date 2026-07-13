@@ -1,21 +1,22 @@
-interface Props
-    extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
+import type { ButtonHTMLAttributes } from "react";
+
+interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
+  loading?: boolean;
+}
 
 export default function Button({
-    children,
-    className="",
-    ...props
-}:Props){
-
-    return(
-
-        <button
-            {...props}
-            className={`px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition ${className}`}
-        >
-            {children}
-        </button>
-
-    )
-
+  loading = false,
+  children,
+  className = "",
+  ...props
+}: Props) {
+  return (
+    <button
+      {...props}
+      disabled={loading || props.disabled}
+      className={`px-4 py-2 rounded-lg bg-blue-600 text-white ${className}`}
+    >
+      {loading ? "Saving..." : children}
+    </button>
+  );
 }

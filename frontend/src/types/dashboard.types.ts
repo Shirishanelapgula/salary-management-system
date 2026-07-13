@@ -1,17 +1,21 @@
-export interface DashboardSummary {
+export interface DashboardStats {
   totalEmployees: number;
   totalDepartments: number;
   totalCountries: number;
-  totalSalary: number;
-  averageSalary: number;
+  monthlyPayroll: number;
 }
 
-export interface DepartmentSalary {
+export interface RecentEmployee {
+  id: number;
+  employeeId: string;
+  firstName: string;
+  lastName: string;
   department: string;
-  totalSalary: number;
+  country: string;
+  salary: number;
 }
 
-export interface CountryStat {
-  country: string;
-  employees: number;
+export interface DashboardResponse {
+  stats: DashboardStats;
+  recentEmployees: RecentEmployee[];
 }

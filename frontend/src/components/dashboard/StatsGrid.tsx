@@ -1,42 +1,48 @@
 import DashboardCard from "./DashboardCard";
-import { useDashboardSummary } from "../../hooks/useDashboard";
+import { useDashboard } from "../../hooks/useDashboard";
 
 export default function StatsGrid() {
-  const { data, isLoading } = useDashboardSummary();
+    const { data, isLoading } = useDashboard();
 
-  if (isLoading) {
-    return <p>Loading dashboard...</p>;
-  }
+    if (isLoading) {
+        return (
+            <div className="rounded-xl bg-white p-8 text-center shadow">
+                Loading dashboard...
+            </div>
+        );
+    }
 
-  const summary = data?.data ?? data;
+    const summary = data?.data;
 
-  return (
-    <div
-      style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(4,1fr)",
-        gap: 20,
-      }}
-    >
-      <DashboardCard
-        title="Employees"
-        value={summary.totalEmployees}
-      />
+    if (!summary) {
+        return (
+            <div className="rounded-xl bg-white p-8 text-center shadow">
+                No dashboard data available.
+            </div>
+        );
+    }
 
-      <DashboardCard
-        title="Departments"
-        value={summary.totalDepartments}
-      />
+    return (
+        <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 xl:grid-cols-4">
+            <DashboardCard
+                title="Employees"
+                value={summary.totalEmployees}
+            />
 
-      <DashboardCard
-        title="Countries"
-        value={summary.totalCountries}
-      />
+            <DashboardCard
+                title="Departments"
+                value={summary.totalDepartments}
+            />
 
-      <DashboardCard
-        title="Average Salary"
-        value={summary.averageSalary}
-      />
-    </div>
-  );
+            <DashboardCard
+                title="Countries"
+                value={summary.totalCountries}
+            />
+
+            <DashboardCard
+                title="Total Payroll"
+                value={`₹ ${summary.totalSalary.toLocaleString()}`}
+            />
+        </div>
+    );
 }

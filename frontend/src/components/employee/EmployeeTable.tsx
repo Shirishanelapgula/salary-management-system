@@ -1,61 +1,64 @@
-import EmployeeRow from "./EmployeeRow";
 import type { Employee } from "../../types/employee.types";
+import EmployeeRow from "./EmployeeRow";
 
 interface Props {
-    employees: Employee[];
-
-    onEdit(id: number): void;
-
-    onDelete(id: number): void;
+  employees: Employee[];
+  onEdit(employee: Employee): void;
+  onDelete(employee: Employee): void;
 }
 
 export default function EmployeeTable({
-    employees,
-    onEdit,
-    onDelete,
+  employees,
+  onEdit,
+  onDelete,
 }: Props) {
-    return (
-        <table
-            width="100%"
-            cellPadding={12}
-        >
-            <thead>
-                <tr>
-                    <th>ID</th>
+  return (
+    <div className="overflow-auto max-h-[calc(100vh-320px)] rounded-xl border border-gray-200">
+      <table className="w-full border-collapse bg-white">
+        <thead className="sticky top-0 bg-gray-100 z-10">
+          <tr>
+            <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">
+              ID
+            </th>
 
-                    <th>Name</th>
+            <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">
+              Name
+            </th>
 
-                    <th>Department</th>
+            <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">
+              Email
+            </th>
 
-                    <th>Country</th>
+            <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">
+              Department
+            </th>
 
-                    <th>Designation</th>
+            <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">
+              Country
+            </th>
 
-                    <th>Salary</th>
+            <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">
+              Salary
+            </th>
 
-                    <th>Actions</th>
-                </tr>
-            </thead>
+            <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700 min-w-[180px]">
+              Actions
+            </th>
+          </tr>
+        </thead>
 
-            <tbody>
-                {employees.length === 0 && (
-                    <tr>
-                        <td colSpan={7}>
-                            No employees found.
-                        </td>
-                    </tr>
-                )}
-                {employees.map(
-                    (employee) => (
-                        <EmployeeRow
-                            key={employee.id}
-                            employee={employee}
-                            onEdit={onEdit}
-                            onDelete={onDelete}
-                        />
-                    )
-                )}
-            </tbody>
-        </table>
-    );
+        <tbody>
+          {employees.map((employee, index) => (
+            <EmployeeRow
+              key={employee.id}
+              employee={employee}
+              striped={index % 2 === 0}
+              onEdit={onEdit}
+              onDelete={onDelete}
+            />
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
 }

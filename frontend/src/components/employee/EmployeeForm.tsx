@@ -1,88 +1,122 @@
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import type { SubmitHandler } from "react-hook-form";
 
-export interface EmployeeFormData {
-  employeeId: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  designation: string;
-  departmentId: number;
-  countryId: number;
-  baseSalary: number;
-}
+import Button from "../common/Button";
+import Input from "../common/Input";
+
+const schema = z.object({
+  employeeId: z.string().min(1, "Employee ID is required"),
+  firstName: z.string().min(2, "First name is required"),
+  lastName: z.string().min(2, "Last name is required"),
+  email: z.string().email("Invalid email"),
+  designation: z.string().min(2, "Designation is required"),
+  departmentId: z.number().min(1, "Department is required"),
+  countryId: z.number().min(1, "Country is required"),
+  baseSalary: z
+  .number()
+  .positive("Salary must be greater than 0"),
+});
+
+export type EmployeeFormData = z.infer<typeof schema>;
 
 interface Props {
   defaultValues?: Partial<EmployeeFormData>;
+  loading?: boolean;
   onSubmit(data: EmployeeFormData): void;
 }
 
 export default function EmployeeForm({
   defaultValues,
+  loading = false,
   onSubmit,
 }: Props) {
   const {
     register,
     handleSubmit,
+    formState: { errors },
   } = useForm<EmployeeFormData>({
+    resolver: zodResolver(schema),
     defaultValues,
   });
 
+  const submitHandler: SubmitHandler<EmployeeFormData> = (
+    data
+  ) => {
+    onSubmit(data);
+  };
+
   return (
     <form
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={handleSubmit(submitHandler)}
+      className="grid grid-cols-2 gap-4"
     >
-      <input
-        placeholder="Employee ID"
+      <Input
+        label="Employee ID"
+        error={errors.employeeId?.message}
         {...register("employeeId")}
       />
 
-      <input
-        placeholder="First Name"
+      <Input
+        label="First Name"
+        error={errors.firstName?.message}
         {...register("firstName")}
       />
 
-      <input
-        placeholder="Last Name"
+      <Input
+        label="Last Name"
+        error={errors.lastName?.message}
         {...register("lastName")}
       />
 
-      <input
-        placeholder="Email"
+      <Input
+        label="Email"
+        error={errors.email?.message}
         {...register("email")}
       />
 
-      <input
-        placeholder="Designation"
+      <Input
+        label="Designation"
+        error={errors.designation?.message}
         {...register("designation")}
       />
 
-      <input
+      <Input
         type="number"
-        placeholder="Department Id"
+        label="Department ID"
+        error={errors.departmentId?.message}
         {...register("departmentId", {
           valueAsNumber: true,
         })}
       />
 
-      <input
+      <Input
         type="number"
-        placeholder="Country Id"
+        label="Country ID"
+        error={errors.countryId?.message}
         {...register("countryId", {
           valueAsNumber: true,
         })}
       />
 
-      <input
+      <Input
         type="number"
-        placeholder="Base Salary"
+        label="Base Salary"
+        error={errors.baseSalary?.message}
         {...register("baseSalary", {
           valueAsNumber: true,
         })}
       />
 
-      <button type="submit">
-        Save Employee
-      </button>
+      <div className="col-span-2 flex justify-end">
+        <Button
+          type="submit"
+          loading={loading}
+        >
+          Save Employee
+        </Button>
+      </div>
     </form>
   );
 }

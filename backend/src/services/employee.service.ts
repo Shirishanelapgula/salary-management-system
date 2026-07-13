@@ -1,7 +1,7 @@
 import { Prisma } from "@prisma/client";
 import { prisma } from "../config/prisma.js";
 import { employeeRepository } from "../repositories/employee.repository.js";
-import {
+import type {
   CreateEmployeeRequest,
   EmployeeQuery,
   UpdateEmployeeRequest,

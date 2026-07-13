@@ -1,4 +1,4 @@
-import { type ReactNode } from "react";
+import type { ReactNode } from "react";
 
 interface Props {
   title: string;
@@ -10,12 +10,22 @@ export default function PageContainer({
   children,
 }: Props) {
   return (
-    <>
-      <h2 className="text-3xl font-bold mb-6">
-        {title}
-      </h2>
+    <div className="flex h-full flex-col overflow-hidden">
+      {/* Header */}
+      <div className="mb-8 flex-shrink-0">
+        <h1 className="text-4xl font-bold">
+          {title}
+        </h1>
 
-      {children}
-    </>
+        <p className="mt-2 text-gray-500">
+          Manage your employees and salary information
+        </p>
+      </div>
+
+      {/* Content */}
+      <div className="flex-1 overflow-hidden">
+        {children}
+      </div>
+    </div>
   );
 }

@@ -1,16 +1,16 @@
-import api from "./axios";
+import axios from "./axios";
 
-export const getDashboardSummary = async () => {
-  const { data } = await api.get("/dashboard/summary");
-  return data;
-};
+export const getDashboardSummary = async () =>
+  (await axios.get("/dashboard/summary")).data;
 
-export const getSalaryByDepartment = async () => {
-  const { data } = await api.get("/dashboard/salary-by-department");
-  return data;
-};
+export const getDepartmentSalary = async () =>
+  (await axios.get("/dashboard/salary-by-department")).data;
 
-export const getCountryStats = async () => {
-  const { data } = await api.get("/dashboard/country-stats");
-  return data;
-};
+export const getCountryStats = async () =>
+  (await axios.get("/dashboard/country-stats")).data;
+
+export const getHighestPaid = async () =>
+  (await axios.get("/dashboard/highest-paid")).data;
+
+export const getLowestPaid = async () =>
+  (await axios.get("/dashboard/lowest-paid")).data;
