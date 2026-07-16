@@ -4,10 +4,14 @@ import SalaryActionMenu from "./SalaryActionMenu";
 
 interface Props {
     salary: Salary;
+    onEdit(salary: Salary): void;
+    onDelete(salary: Salary): void;
 }
 
 export default function SalaryRow({
     salary,
+    onEdit,
+    onDelete,
 }: Props) {
     return (
         <tr className="border-b hover:bg-gray-50">
@@ -53,8 +57,8 @@ export default function SalaryRow({
             </td>
             <td className="px-4 py-3">
                 <SalaryActionMenu
-                    onEdit={() => { }}
-                    onDelete={() => { }}
+                    onEdit={() => onEdit(salary)}
+                    onDelete={() => onDelete(salary)}
                 />
             </td>
 
