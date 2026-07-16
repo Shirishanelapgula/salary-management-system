@@ -1,62 +1,47 @@
-import api from "./axios";
+import axios from "./axios";
 
-import type {
-  SalaryFormData,
-  SalaryQuery,
-} from "../types/salary.types";
+/* ===========================================
+   Salary Management
+=========================================== */
 
-export async function getSalaries(
-  params: SalaryQuery
-) {
-  const { data } = await api.get(
-    "/salaries",
-    {
-      params,
-    }
-  );
+export const getSalaries = async () =>
+  (await axios.get("/salaries")).data;
 
-  return data;
-}
+export const getSalary = async (id: number) =>
+  (await axios.get(`/salaries/${id}`)).data;
 
-export async function createSalary(
-  payload: SalaryFormData
-) {
-  const { data } = await api.post(
-    "/salaries",
-    payload
-  );
+export const updateSalary = async ({
+  id,
+  data,
+}: {
+  id: number;
+  data: any;
+}) =>
+  (await axios.put(`/salaries/${id}`, data)).data;
 
-  return data;
-}
+export const deleteSalary = async (id: number) =>
+  (await axios.delete(`/salaries/${id}`)).data;
 
-export async function updateSalary(
-  id: number,
-  payload: SalaryFormData
-) {
-  const { data } = await api.put(
-    `/salaries/${id}`,
-    payload
-  );
+/* ===========================================
+   Employee Salary APIs
+=========================================== */
 
-  return data;
-}
+export const getCurrentSalary = async (employeeId: number) =>
+  (await axios.get(`/employees/${employeeId}/salary`)).data;
 
-export async function deleteSalary(
-  id: number
-) {
-  const { data } = await api.delete(
-    `/salaries/${id}`
-  );
+export const getSalaryHistory = async (employeeId: number) =>
+  (await axios.get(`/employees/${employeeId}/salary/history`)).data;
 
-  return data;
-}
-
-export async function getSalaryHistory(
-  employeeId: number
-) {
-  const { data } = await api.get(
-    `/salaries/history/${employeeId}`
-  );
-
-  return data;
-}
+export const reviseSalary = async (
+  employeeId: number,
+  data: {
+    baseSalary: number;
+    effectiveFrom: string;
+  }
+) =>
+  (
+    await axios.post(
+      `/employees/${employeeId}/salary`,
+      data
+    )
+  ).data;

@@ -1,20 +1,7 @@
 import { useHighestPaid } from "../../hooks/useHighestPaid";
 
 export default function HighestPaidTable() {
-    const {
-        data,
-        isLoading,
-        isError,
-        error,
-    } = useHighestPaid();
-
-    console.log({
-        data,
-        isLoading,
-        isError,
-        error,
-    });
-
+    const { data, isLoading } = useHighestPaid();
 
     if (isLoading) {
         return (
@@ -25,8 +12,6 @@ export default function HighestPaidTable() {
     }
 
     const employees = data?.data ?? [];
-    console.log("Highest Paid API Response:", data);
-    console.log("Employees:", employees);
 
     return (
         <div className="rounded-xl bg-white p-6 shadow">

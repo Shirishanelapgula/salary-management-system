@@ -6,13 +6,12 @@ interface Props {
 }
 
 export default function PageContainer({
-  title,
   children,
 }: Props) {
   return (
     <div className="flex h-full flex-col overflow-hidden">
       {/* Header */}
-      <div className="mb-8 flex-shrink-0">
+      {/* <div className="mb-8 flex-shrink-0">
         <h1 className="text-4xl font-bold">
           {title}
         </h1>
@@ -20,7 +19,7 @@ export default function PageContainer({
         <p className="mt-2 text-gray-500">
           Manage your employees and salary information
         </p>
-      </div>
+      </div> */}
 
       {/* Content */}
       <div className="flex-1 overflow-hidden">

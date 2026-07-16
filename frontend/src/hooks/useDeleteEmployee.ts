@@ -9,7 +9,7 @@ export function useDeleteEmployee() {
     mutationFn: deleteEmployee,
 
     onSuccess: () => {
-      toast.success("Employee deleted");
+      toast.success("Employee deleted successfully");
 
       queryClient.invalidateQueries({
         queryKey: ["employees"],
@@ -17,7 +17,10 @@ export function useDeleteEmployee() {
     },
 
     onError: (error: any) => {
-      toast.error(error?.message ?? "Delete failed");
+      const message = error?.message
+        ? `Unable to delete employee: ${error.message}`
+        : "Unable to delete employee";
+      toast.error(message);
     },
   });
 }

@@ -3,165 +3,203 @@ import { prisma } from "../config/prisma.js";
 import { EmployeeQuery } from "../types/employee.types.js";
 
 export class EmployeeRepository {
-  async findAll(query: EmployeeQuery) {
-    const {
-      page = 1,
-      limit = 20,
-      search,
-      department,
-      country,
-      designation,
-      sort = "createdAt",
-      order = "desc",
-    } = query;
+    async findAll(query: EmployeeQuery) {
+        const {
+            page = 1,
+            limit = 20,
+            search,
+            department,
+            country,
+            designation,
+            sort = "createdAt",
+            order = "desc",
+        } = query;
 
-    const where: Prisma.EmployeeWhereInput = {};
+        const where: Prisma.EmployeeWhereInput = {};
 
-    if (search) {
-      where.OR = [
-        {
-          firstName: {
-            contains: search,
-          },
-        },
-        {
-          lastName: {
-            contains: search,
-          },
-        },
-        {
-          employeeId: {
-            contains: search,
-          },
-        },
-        {
-          email: {
-            contains: search,
-          },
-        },
-      ];
+        if (search) {
+            where.OR = [
+                {
+                    firstName: {
+                        contains: search,
+                    },
+                },
+                {
+                    lastName: {
+                        contains: search,
+                    },
+                },
+                {
+                    employeeId: {
+                        contains: search,
+                    },
+                },
+                {
+                    email: {
+                        contains: search,
+                    },
+                },
+            ];
+        }
+
+        if (designation) {
+            where.designation = designation;
+        }
+
+        if (department) {
+            where.department = {
+                name: department,
+            };
+        }
+
+        if (country) {
+            where.country = {
+                name: country,
+            };
+        }
+
+        const [items, total] = await Promise.all([
+            prisma.employee.findMany({
+                where,
+
+                include: {
+                    department: true,
+                    country: true,
+                    salaries: {
+                        where: {
+                            isCurrent: true,
+                        },
+                    },
+                },
+
+                orderBy: {
+                    [sort]: order,
+                },
+
+                skip: (page - 1) * limit,
+
+                take: limit,
+            }),
+
+            prisma.employee.count({
+                where,
+            }),
+        ]);
+
+        return {
+            items,
+            total,
+            page,
+            limit,
+            totalPages: Math.ceil(total / limit),
+        };
     }
 
-    if (designation) {
-      where.designation = designation;
-    }
-
-    if (department) {
-      where.department = {
-        name: department,
-      };
-    }
-
-    if (country) {
-      where.country = {
-        name: country,
-      };
-    }
-
-    const [items, total] = await Promise.all([
-      prisma.employee.findMany({
-        where,
-
-        include: {
-          department: true,
-          country: true,
-          salaries: {
+    async findById(id: number) {
+        return prisma.employee.findUnique({
             where: {
-              isCurrent: true,
+                id,
             },
-          },
-        },
 
-        orderBy: {
-          [sort]: order,
-        },
+            include: {
+                department: true,
+                country: true,
+                salaries: {
+                    orderBy: {
+                        createdAt: "desc",
+                    },
+                },
+            },
+        });
+    }
 
-        skip: (page - 1) * limit,
+    async findByEmployeeId(employeeId: string) {
+        return prisma.employee.findUnique({
+            where: {
+                employeeId,
+            },
+        });
+    }
 
-        take: limit,
-      }),
+    async findByEmail(email: string) {
+        return prisma.employee.findUnique({
+            where: {
+                email,
+            },
+        });
+    }
 
-      prisma.employee.count({
-        where,
-      }),
-    ]);
+    async create(data: Prisma.EmployeeCreateInput) {
+        return prisma.employee.create({
+            data,
 
-    return {
-      items,
-      total,
-      page,
-      limit,
-      totalPages: Math.ceil(total / limit),
-    };
-  }
+            include: {
+                department: true,
+                country: true,
+            },
+        });
+    }
 
-  async findById(id: number) {
-    return prisma.employee.findUnique({
-      where: {
-        id,
-      },
+    async update(id: number, data: Prisma.EmployeeUpdateInput) {
+        return prisma.employee.update({
+            where: {
+                id,
+            },
 
-      include: {
-        department: true,
-        country: true,
-        salaries: {
-          orderBy: {
-            createdAt: "desc",
-          },
-        },
-      },
-    });
-  }
+            data,
 
-  async findByEmployeeId(employeeId: string) {
-    return prisma.employee.findUnique({
-      where: {
-        employeeId,
-      },
-    });
-  }
+            include: {
+                department: true,
+                country: true,
+            },
+        });
+    }
 
-  async findByEmail(email: string) {
-    return prisma.employee.findUnique({
-      where: {
-        email,
-      },
-    });
-  }
+    async delete(id: number) {
+        return prisma.employee.delete({
+            where: {
+                id,
+            },
+        });
+    }
 
-  async create(data: Prisma.EmployeeCreateInput) {
-    return prisma.employee.create({
-      data,
+    async findProfile(id: number) {
+        return prisma.employee.findUnique({
+            where: {
+                id,
+            },
 
-      include: {
-        department: true,
-        country: true,
-      },
-    });
-  }
+            include: {
+                department: true,
 
-  async update(id: number, data: Prisma.EmployeeUpdateInput) {
-    return prisma.employee.update({
-      where: {
-        id,
-      },
+                country: true,
 
-      data,
+                salaries: {
+                    orderBy: {
+                        effectiveFrom: "desc",
+                    },
+                },
+            },
+        });
+    }
 
-      include: {
-        department: true,
-        country: true,
-      },
-    });
-  }
+    async findDetails(id: number) {
+        return prisma.employee.findUnique({
+            where: {
+                id,
+            },
+            include: {
+                department: true,
+                country: true,
 
-  async delete(id: number) {
-    return prisma.employee.delete({
-      where: {
-        id,
-      },
-    });
-  }
+                salaries: {
+                    orderBy: {
+                        effectiveFrom: "desc",
+                    },
+                },
+            },
+        });
+    }
 }
 
 export const employeeRepository = new EmployeeRepository();

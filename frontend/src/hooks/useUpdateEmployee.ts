@@ -23,7 +23,10 @@ export function useUpdateEmployee() {
     },
 
     onError: (error: any) => {
-      toast.error(error?.message ?? "Update failed");
+      const message = error?.message
+        ? `Unable to update employee: ${error.message}`
+        : "Unable to update employee";
+      toast.error(message);
     },
   });
 }

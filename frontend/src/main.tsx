@@ -6,16 +6,19 @@ import { Toaster } from "react-hot-toast";
 
 import App from "./App";
 import "./index.css";
+import { AuthProvider } from "./context/AuthContext";
 
 const queryClient = new QueryClient();
+const AuthProviderWrapper = AuthProvider as React.ComponentType<{ children?: React.ReactNode }>;
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
-        <App />
+        <AuthProviderWrapper>
+          <App />
+        </AuthProviderWrapper>
       </BrowserRouter>
-
       <Toaster position="top-right" />
     </QueryClientProvider>
   </React.StrictMode>

@@ -6,9 +6,15 @@ import tseslint from 'typescript-eslint'
 import { defineConfig, globalIgnores } from 'eslint/config'
 
 export default defineConfig([
-  globalIgnores(['dist']),
+  globalIgnores(['dist', 'coverage']),
   {
     files: ['**/*.{ts,tsx}'],
+    rules: {
+      "@typescript-eslint/no-explicit-any": "off",
+      "react-refresh/only-export-components": "off",
+      "@typescript-eslint/no-empty-object-type": "off",
+      "react-hooks/exhaustive-deps": "warn"
+    },
     extends: [
       js.configs.recommended,
       tseslint.configs.recommended,

@@ -25,7 +25,10 @@ export function useUpdateDepartment() {
     },
 
     onError: (error: any) => {
-      toast.error(error?.message ?? "Update failed");
+      const message = error?.message
+        ? `Unable to update department: ${error.message}`
+        : "Unable to update department";
+      toast.error(message);
     },
   });
 }

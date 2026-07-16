@@ -3,9 +3,62 @@ import { NotFoundError } from "../errors/NotFoundError.js";
 import { salaryRepository } from "../repositories/salary.repository.js";
 
 export class SalaryService {
+  // ============================================
+  // Salary Management APIs
+  // ============================================
+
+  async getSalaries() {
+    return salaryRepository.findAll();
+  }
+
+  async getSalary(id: number) {
+    const salary = await salaryRepository.findById(id);
+
+    if (!salary) {
+      throw new NotFoundError("Salary not found");
+    }
+
+    return salary;
+  }
+
+  async updateSalary(
+    id: number,
+    data: {
+      baseSalary?: number;
+      effectiveFrom?: Date;
+      effectiveTo?: Date | null;
+      isCurrent?: boolean;
+    }
+  ) {
+    const salary = await salaryRepository.findById(id);
+
+    if (!salary) {
+      throw new NotFoundError("Salary not found");
+    }
+
+    return salaryRepository.update(id, data);
+  }
+
+  async deleteSalary(id: number) {
+    const salary = await salaryRepository.findById(id);
+
+    if (!salary) {
+      throw new NotFoundError("Salary not found");
+    }
+
+    await salaryRepository.delete(id);
+
+    return {
+      message: "Salary deleted successfully",
+    };
+  }
+
+  // ============================================
+  // Employee Profile APIs
+  // ============================================
+
   async getCurrentSalary(employeeId: number) {
-    const salary =
-      await salaryRepository.getCurrentSalary(employeeId);
+    const salary = await salaryRepository.getCurrentSalary(employeeId);
 
     if (!salary) {
       throw new NotFoundError("Current salary not found");
@@ -21,14 +74,11 @@ export class SalaryService {
   async reviseSalary(
     employeeId: number,
     baseSalary: number,
-    effectiveFrom = new Date()
+    effectiveFrom: Date
   ) {
     const employee = await prisma.employee.findUnique({
       where: {
         id: employeeId,
-      },
-      include: {
-        country: true,
       },
     });
 
@@ -36,30 +86,11 @@ export class SalaryService {
       throw new NotFoundError("Employee not found");
     }
 
-    return prisma.$transaction(async (tx) => {
-      await tx.salary.updateMany({
-        where: {
-          employeeId,
-          isCurrent: true,
-        },
-        data: {
-          isCurrent: false,
-          effectiveTo: effectiveFrom,
-        },
-      });
-
-      const salary = await tx.salary.create({
-        data: {
-          employeeId,
-          baseSalary,
-          currency: employee.country.currency,
-          effectiveFrom,
-          isCurrent: true,
-        },
-      });
-
-      return salary;
-    });
+    return salaryRepository.reviseSalary(
+      employeeId,
+      baseSalary,
+      effectiveFrom
+    );
   }
 }
 

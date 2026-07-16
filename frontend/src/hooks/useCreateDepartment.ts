@@ -17,7 +17,10 @@ export function useCreateDepartment() {
     },
 
     onError: (error: any) => {
-      toast.error(error?.message ?? "Failed to create department");
+      const message = error?.message
+        ? `Unable to create department: ${error.message}`
+        : "Unable to create department";
+      toast.error(message);
     },
   });
 }

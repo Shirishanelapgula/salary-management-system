@@ -100,6 +100,10 @@ export default function EmployeesPage() {
     const confirmDelete = async () => {
         if (!deleteEmployee) return;
 
+        if (!window.confirm("Are you sure you want to delete this employee?")) {
+            return;
+        }
+
         await deleteMutation.mutateAsync(deleteEmployee.id);
 
         setDeleteEmployee(null);
@@ -108,7 +112,9 @@ export default function EmployeesPage() {
     if (isLoading) {
         return (
             <PageContainer title="Employees">
-                Loading...
+                <div className="flex min-h-[50vh] items-center justify-center">
+                    Loading...
+                </div>
             </PageContainer>
         );
     }
@@ -139,11 +145,17 @@ export default function EmployeesPage() {
 
                     <div className="flex-1 overflow-hidden">
 
-                        <EmployeeTable
-                            employees={result?.items ?? []}
-                            onEdit={handleEdit}
-                            onDelete={handleDelete}
-                        />
+                        {(result?.items ?? []).length > 0 ? (
+                            <EmployeeTable
+                                employees={result?.items ?? []}
+                                onEdit={handleEdit}
+                                onDelete={handleDelete}
+                            />
+                        ) : (
+                            <div className="flex h-full min-h-[240px] items-center justify-center rounded-lg border border-dashed border-slate-300 bg-slate-50 text-center text-slate-600">
+                                👤 No employees found.
+                            </div>
+                        )}
 
                     </div>
 

@@ -16,7 +16,10 @@ export function useCreateEmployee() {
     },
 
     onError: (error: any) => {
-      toast.error(error?.message ?? "Failed to create employee");
+      const message = error?.message
+        ? `Unable to create employee: ${error.message}`
+        : "Unable to create employee";
+      toast.error(message);
     },
   });
 }

@@ -5,7 +5,6 @@ const { countries, departments, designations } = require("../constants/seed-data
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log("🌱 Seeding database...");
 
   // Clean existing data
   await prisma.salary.deleteMany();
@@ -50,8 +49,6 @@ async function main() {
     });
   }
 
-  console.log("Creating Employees...");
-
   await prisma.employee.createMany({
     data: employees,
   });
@@ -71,13 +68,10 @@ async function main() {
     isCurrent: true,
   }));
 
-  console.log("Creating Salaries...");
-
   await prisma.salary.createMany({
     data: salaries,
   });
 
-  console.log("✅ Database seeded successfully");
 }
 
 main()

@@ -35,16 +35,15 @@ export default function DepartmentsPage() {
 
   const deleteMutation = useDeleteDepartment();
 
-  const departments =
-    data?.data ?? data ?? [];
-
   const filteredDepartments = useMemo(() => {
+    const departments = data?.data ?? data ?? [];
+
     return departments.filter((department: Department) =>
       department.name
         .toLowerCase()
         .includes(search.toLowerCase())
     );
-  }, [departments, search]);
+  }, [data, search]);
 
   const defaultValues = useMemo(() => {
     if (!editingDepartment) return undefined;
@@ -73,7 +72,9 @@ export default function DepartmentsPage() {
   if (isLoading) {
     return (
       <PageContainer title="Departments">
-        Loading...
+        <div className="flex min-h-[50vh] items-center justify-center">
+          Loading...
+        </div>
       </PageContainer>
     );
   }
@@ -97,16 +98,22 @@ export default function DepartmentsPage() {
 
         <div className="mt-6 flex-1 overflow-hidden">
 
-          <DepartmentTable
-            departments={filteredDepartments}
-            onEdit={(department) => {
-              setEditingDepartment(department);
-              setIsModalOpen(true);
-            }}
-            onDelete={(department) =>
-              setDeleteDepartment(department)
-            }
-          />
+          {filteredDepartments.length > 0 ? (
+            <DepartmentTable
+              departments={filteredDepartments}
+              onEdit={(department) => {
+                setEditingDepartment(department);
+                setIsModalOpen(true);
+              }}
+              onDelete={(department) =>
+                setDeleteDepartment(department)
+              }
+            />
+          ) : (
+            <div className="flex h-full min-h-[240px] items-center justify-center rounded-lg border border-dashed border-slate-300 bg-slate-50 text-center text-slate-600">
+              📂 No departments found.
+            </div>
+          )}
 
         </div>
 
@@ -141,6 +148,10 @@ export default function DepartmentsPage() {
         }
         onConfirm={async () => {
           if (!deleteDepartment) return;
+
+          if (!window.confirm("Are you sure you want to delete this department?")) {
+            return;
+          }
 
           await deleteMutation.mutateAsync(
             deleteDepartment.id

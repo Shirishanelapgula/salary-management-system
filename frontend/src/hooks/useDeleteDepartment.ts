@@ -9,7 +9,7 @@ export function useDeleteDepartment() {
     mutationFn: deleteDepartment,
 
     onSuccess: () => {
-      toast.success("Department deleted");
+      toast.success("Department deleted successfully");
 
       queryClient.invalidateQueries({
         queryKey: ["departments"],
@@ -17,7 +17,10 @@ export function useDeleteDepartment() {
     },
 
     onError: (error: any) => {
-      toast.error(error?.message ?? "Delete failed");
+      const message = error?.message
+        ? `Unable to delete department: ${error.message}`
+        : "Unable to delete department";
+      toast.error(message);
     },
   });
 }

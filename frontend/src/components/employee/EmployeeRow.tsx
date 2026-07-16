@@ -1,5 +1,6 @@
 import Button from "../common/Button";
 import type { Employee } from "../../types/employee.types";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
     employee: Employee;
@@ -14,6 +15,7 @@ export default function EmployeeRow({
     onEdit,
     onDelete,
 }: Props) {
+    const navigate = useNavigate();
     return (
         <tr
             className={`border-b transition-colors hover:bg-blue-50 ${striped ? "bg-white" : "bg-gray-50"
@@ -36,6 +38,12 @@ export default function EmployeeRow({
             </td>
             <td className="px-4 py-3">
                 <div className="flex items-center gap-2 whitespace-nowrap">
+                    <Button
+                        className="bg-blue-600 hover:bg-blue-700"
+                        onClick={() => navigate(`/employees/${employee.id}`)}
+                    >
+                        View
+                    </Button>
                     <Button
                         className="bg-yellow-500 hover:bg-yellow-600"
                         onClick={() => onEdit(employee)}
