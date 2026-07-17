@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 
 import PageContainer from "../components/layout/PageContainer";
 
-import EmployeeToolbar from "../components/employee/EmployeeToolBar";
+import EmployeeToolBar from "../components/employee/EmployeeToolBar";
 import EmployeeTable from "../components/employee/EmployeeTable";
 import EmployeeFilters from "../components/employee/EmployeeFilters";
 import EmployeeSearch from "../components/employee/EmployeeSearch";
@@ -123,7 +123,7 @@ export default function EmployeesPage() {
         <PageContainer title="Employees">
             <div className="flex h-full flex-col">
 
-                <EmployeeToolbar onAdd={handleCreate} />
+                <EmployeeToolBar onAdd={handleCreate} />
 
                 <div className="mt-6 flex-1 rounded-2xl bg-white p-6 shadow overflow-hidden flex flex-col">
 
