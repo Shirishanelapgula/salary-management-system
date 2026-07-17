@@ -42,6 +42,32 @@ export class EmployeeService {
     }
 
     const employee = await prisma.$transaction(async (tx) => {
+      console.log("Incoming payload:", data);
+
+      const department = await tx.department.findUnique({
+        where: {
+          id: data.departmentId,
+        },
+      });
+
+      console.log("Department:", department);
+
+      const country = await tx.country.findUnique({
+        where: {
+          id: data.countryId,
+        },
+      });
+
+      console.log("Country:", country);
+
+      if (!department) {
+        throw new Error(`Department ${data.departmentId} not found`);
+      }
+
+      if (!country) {
+        throw new Error(`Country ${data.countryId} not found`);
+      }
+
       const employee = await tx.employee.create({
         data: {
           employeeId: data.employeeId,
@@ -49,16 +75,8 @@ export class EmployeeService {
           lastName: data.lastName,
           email: data.email,
           designation: data.designation,
-          department: {
-            connect: {
-              id: data.departmentId,
-            },
-          },
-          country: {
-            connect: {
-              id: data.countryId,
-            },
-          },
+          departmentId: data.departmentId,
+          countryId: data.countryId,
         },
         include: {
           department: true,
@@ -70,7 +88,7 @@ export class EmployeeService {
         data: {
           employeeId: employee.id,
           baseSalary: data.baseSalary,
-          currency: employee.country.currency,
+          currency: country.currency,
           effectiveFrom: new Date(),
           isCurrent: true,
         },

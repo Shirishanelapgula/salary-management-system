@@ -25,8 +25,14 @@ export class EmployeeController {
                 message: "Employees fetched successfully",
                 data: result,
             });
-        } catch (error) {
-            next(error);
+        } catch (error: any) {
+            console.error(error);
+
+            res.status(500).json({
+                success: false,
+                message: error.message,
+                stack: error.stack,
+            });
         }
     }
 
@@ -44,8 +50,14 @@ export class EmployeeController {
                 success: true,
                 data: employee,
             });
-        } catch (error) {
-            next(error);
+        } catch (error: any) {
+            console.error(error);
+
+            res.status(500).json({
+                success: false,
+                message: error.message,
+                stack: error.stack,
+            });
         }
     }
 
@@ -67,8 +79,14 @@ export class EmployeeController {
                 message: "Employee created successfully",
                 data: employee,
             });
-        } catch (error) {
-            next(error);
+        } catch (error: any) {
+            console.error(error);
+
+            res.status(500).json({
+                success: false,
+                message: error.message,
+                stack: error.stack,
+            });
         }
     }
 
@@ -91,8 +109,14 @@ export class EmployeeController {
                 message: "Employee updated successfully",
                 data: employee,
             });
-        } catch (error) {
-            next(error);
+        } catch (error: any) {
+            console.error(error);
+
+            res.status(500).json({
+                success: false,
+                message: error.message,
+                stack: error.stack,
+            });
         }
     }
 
@@ -111,8 +135,14 @@ export class EmployeeController {
                 success: true,
                 ...result,
             });
-        } catch (error) {
-            next(error);
+        } catch (error: any) {
+            console.error(error);
+
+            res.status(500).json({
+                success: false,
+                message: error.message,
+                stack: error.stack,
+            });
         }
     }
 
@@ -131,8 +161,14 @@ export class EmployeeController {
                 res,
                 data
             );
-        } catch (error) {
-            next(error);
+        } catch (error: any) {
+            console.error(error);
+
+            res.status(500).json({
+                success: false,
+                message: error.message,
+                stack: error.stack,
+            });
         }
     }
 
@@ -154,8 +190,14 @@ export class EmployeeController {
                 data,
                 "Employee details fetched successfully"
             );
-        } catch (error) {
-            next(error);
+        } catch (error: any) {
+            console.error(error);
+
+            res.status(500).json({
+                success: false,
+                message: error.message,
+                stack: error.stack,
+            });
         }
     }
 }
