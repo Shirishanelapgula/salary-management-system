@@ -15,7 +15,7 @@ vi.mock("../components/ai/AIChatInput", () => ({ default: ({ onSend, loading }: 
 vi.mock("../components/ai/AIChatWindow", () => ({ default: ({ messages }: { messages: Array<{ role: string; message: string }> }) => <div>{messages.map((m) => <p key={`${m.role}-${m.message}`}>{m.message}</p>)}</div> }));
 vi.mock("../components/ai/AISuggestions", () => ({ default: ({ onSelect }: { onSelect: (text: string) => void }) => <button onClick={() => onSelect("suggestion")}>Suggestion</button> }));
 
-import AIPage from "./AIPage";
+import AIPage from "../AIPage";
 
 describe("AIPage", () => {
   it("renders the chat UI and handles a successful response", async () => {

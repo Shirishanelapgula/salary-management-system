@@ -5,7 +5,7 @@ interface Props {
   onAdd(): void;
 }
 
-export default function EmployeeToolbar({ onAdd }: Props) {
+export default function EmployeeToolBar({ onAdd }: Props) {
   return (
     <div className="mb-6 flex items-center justify-between">
       <div>

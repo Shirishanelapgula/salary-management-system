@@ -31,7 +31,7 @@ vi.mock("react-router-dom", async () => {
   return { ...actual, useNavigate: () => vi.fn() };
 });
 
-import LoginPage from "./LoginPage";
+import LoginPage from "../LoginPage";
 
 describe("LoginPage", () => {
   beforeEach(() => {

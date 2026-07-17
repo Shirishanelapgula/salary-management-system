@@ -15,7 +15,7 @@ vi.mock("../components/salary/SalaryTable", () => ({ default: ({ salaries, onEdi
 vi.mock("../components/salary/EditSalaryModal", () => ({ default: ({ open, salary }: { open: boolean; salary: any }) => open ? <div>{salary?.employee?.firstName ?? "Edit"}</div> : null }));
 vi.mock("../components/salary/DeleteSalaryDialog", () => ({ default: ({ open }: { open: boolean }) => open ? <div>Delete Salary</div> : null }));
 
-import SalaryPage from "./SalaryPage";
+import SalaryPage from "../SalaryPage";
 
 describe("SalaryPage", () => {
   it("shows a friendly empty state when there are no salary records", () => {

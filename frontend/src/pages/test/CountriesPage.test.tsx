@@ -18,7 +18,7 @@ vi.mock("../components/country/CountryTable", () => ({ default: ({ countries }: 
 vi.mock("../components/country/CountryModal", () => ({ default: ({ open, title }: { open: boolean; title: string }) => open ? <div>{title}</div> : null }));
 vi.mock("../components/country/DeleteCountryDialog", () => ({ default: ({ open, countryName }: { open: boolean; countryName: string }) => open ? <div>{countryName}</div> : null }));
 
-import CountriesPage from "./CountriesPage";
+import CountriesPage from "../CountriesPage";
 
 describe("CountriesPage", () => {
   it("renders the country table or empty state", () => {

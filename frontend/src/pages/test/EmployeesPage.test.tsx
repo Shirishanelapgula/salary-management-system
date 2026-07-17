@@ -20,7 +20,7 @@ vi.mock("../components/employee/Pagination", () => ({ default: () => <div>Pagina
 vi.mock("../components/employee/EmployeeModal", () => ({ default: ({ open, title }: { open: boolean; title: string }) => open ? <div>{title}</div> : null }));
 vi.mock("../components/employee/DeleteDialog", () => ({ default: ({ open, employeeName }: { open: boolean; employeeName: string }) => open ? <div>{employeeName}</div> : null }));
 
-import EmployeesPage from "./EmployeesPage";
+import EmployeesPage from "../EmployeesPage";
 
 describe("EmployeesPage", () => {
   it("shows an empty state when there are no employees", () => {

@@ -11,7 +11,7 @@ vi.mock("../components/dashboard/CountryDistributionChart", () => ({ default: ()
 vi.mock("../components/dashboard/HighestPaidTable", () => ({ default: () => <div>HighestPaidTable</div> }));
 vi.mock("../components/dashboard/LowestPaidTable", () => ({ default: () => <div>LowestPaidTable</div> }));
 
-import DashboardPage from "./DashboardPage";
+import DashboardPage from "../DashboardPage";
 
 describe("DashboardPage", () => {
   it("renders the dashboard sections", () => {
