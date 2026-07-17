@@ -18,7 +18,7 @@ vi.mock("../components/department/DepartmentTable", () => ({ default: ({ departm
 vi.mock("../components/department/DepartmentModal", () => ({ default: ({ open, title }: { open: boolean; title: string }) => open ? <div>{title}</div> : null }));
 vi.mock("../components/department/DeleteDepartmentDialog", () => ({ default: ({ open, departmentName }: { open: boolean; departmentName: string }) => open ? <div>{departmentName}</div> : null }));
 
-import DepartmentsPage from "./DepartmentsPage";
+import DepartmentsPage from "../DepartmentsPage";
 
 describe("DepartmentsPage", () => {
   it("shows an empty state when no departments are present", () => {
