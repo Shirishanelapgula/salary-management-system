@@ -9,6 +9,29 @@ import type {
 } from "../types/employee.types.js";
 
 export class EmployeeService {
+  /**
+   * Audit should never break CRUD operations.
+   */
+  private async safeAuditLog(
+    action: string,
+    entityType: string,
+    entityId: string,
+    description: string,
+    userId?: number
+  ) {
+    try {
+      await auditService.log(
+        action,
+        entityType,
+        entityId,
+        description,
+        userId
+      );
+    } catch (err) {
+      console.error("Audit log skipped:", err);
+    }
+  }
+
   async getEmployees(query: EmployeeQuery) {
     return employeeRepository.findAll(query);
   }
@@ -42,15 +65,15 @@ export class EmployeeService {
     }
 
     const employee = await prisma.$transaction(async (tx) => {
-      console.log("Incoming payload:", data);
-
       const department = await tx.department.findUnique({
         where: {
           id: data.departmentId,
         },
       });
 
-      console.log("Department:", department);
+      if (!department) {
+        throw new Error("Department not found");
+      }
 
       const country = await tx.country.findUnique({
         where: {
@@ -58,14 +81,8 @@ export class EmployeeService {
         },
       });
 
-      console.log("Country:", country);
-
-      if (!department) {
-        throw new Error(`Department ${data.departmentId} not found`);
-      }
-
       if (!country) {
-        throw new Error(`Country ${data.countryId} not found`);
+        throw new Error("Country not found");
       }
 
       const employee = await tx.employee.create({
@@ -97,7 +114,7 @@ export class EmployeeService {
       return employee;
     });
 
-    await auditService.log(
+    await this.safeAuditLog(
       "CREATE",
       "EMPLOYEE",
       employee.employeeId,
@@ -167,7 +184,7 @@ export class EmployeeService {
         return updatedEmployee;
       });
 
-    await auditService.log(
+    await this.safeAuditLog(
       "UPDATE",
       "EMPLOYEE",
       updatedEmployee.employeeId,
@@ -203,7 +220,7 @@ export class EmployeeService {
       });
     });
 
-    await auditService.log(
+    await this.safeAuditLog(
       "DELETE",
       "EMPLOYEE",
       employee.employeeId,
@@ -240,9 +257,7 @@ export class EmployeeService {
         department: employee.department,
         country: employee.country,
       },
-
       currentSalary,
-
       salaryHistory: employee.salaries,
     };
   }
@@ -257,14 +272,11 @@ export class EmployeeService {
 
     return {
       employee,
-
       currentSalary:
         employee.salaries.find(
           (salary) => salary.isCurrent
         ) ?? null,
-
-      salaryHistory:
-        employee.salaries,
+      salaryHistory: employee.salaries,
     };
   }
 }

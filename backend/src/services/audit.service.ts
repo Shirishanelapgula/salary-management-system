@@ -8,15 +8,18 @@ export class AuditService {
     description: string,
     userId?: number
   ) {
-    const result = await auditRepository.create({
-      action,
-      entityType,
-      entityId,
-      description,
-      userId,
-    });
-
-    return result;
+    try {
+      return await auditRepository.create({
+        action,
+        entityType,
+        entityId,
+        description,
+        userId,
+      });
+    } catch (err) {
+      console.error("Audit failed:", err);
+      return null;
+    }
   }
 
   async latest() {
