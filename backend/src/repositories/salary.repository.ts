@@ -2,7 +2,65 @@ import { prisma } from "../config/prisma.js";
 
 export class SalaryRepository {
   // =========================
-  // Employee Profile APIs
+  // Salary Management
+  // =========================
+
+  async findAll() {
+    return prisma.salary.findMany({
+      where: {
+        isCurrent: true,
+      },
+      include: {
+        employee: {
+          include: {
+            department: true,
+            country: true,
+          },
+        },
+      },
+      orderBy: {
+        baseSalary: "desc",
+      },
+    });
+  }
+
+  async findById(id: number) {
+    return prisma.salary.findUnique({
+      where: { id },
+      include: {
+        employee: {
+          include: {
+            department: true,
+            country: true,
+          },
+        },
+      },
+    });
+  }
+
+  async update(
+    id: number,
+    data: {
+      baseSalary?: number;
+      effectiveFrom?: Date;
+      effectiveTo?: Date | null;
+      isCurrent?: boolean;
+    }
+  ) {
+    return prisma.salary.update({
+      where: { id },
+      data,
+    });
+  }
+
+  async delete(id: number) {
+    return prisma.salary.delete({
+      where: { id },
+    });
+  }
+
+  // =========================
+  // Employee Profile
   // =========================
 
   async getCurrentSalary(employeeId: number) {
@@ -59,53 +117,6 @@ export class SalaryRepository {
           isCurrent: true,
         },
       });
-    });
-  }
-
-  // =========================
-  // Salary Management APIs
-  // =========================
-
-  async findAll() {
-    return prisma.salary.findMany({
-      include: {
-        employee: {
-          include: {
-            department: true,
-            country: true,
-          },
-        },
-      },
-      orderBy: {
-        effectiveFrom: "desc",
-      },
-    });
-  }
-
-  async findById(id: number) {
-    return prisma.salary.findUnique({
-      where: { id },
-      include: {
-        employee: {
-          include: {
-            department: true,
-            country: true,
-          },
-        },
-      },
-    });
-  }
-
-  async update(id: number, data: any) {
-    return prisma.salary.update({
-      where: { id },
-      data,
-    });
-  }
-
-  async delete(id: number) {
-    return prisma.salary.delete({
-      where: { id },
     });
   }
 }
