@@ -18,4 +18,4 @@ const HTTP_STATUS = {
   INTERNAL_SERVER_ERROR: 500,
 } as const;
 
-module.exports = { HTTP_STATUS };
+export { HTTP_STATUS };

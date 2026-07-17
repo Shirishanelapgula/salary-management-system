@@ -1,6 +1,6 @@
-const { PrismaClient } = require("@prisma/client");
-const { faker } = require("@faker-js/faker");
-const { countries, departments, designations } = require("../constants/seed-data");
+import { PrismaClient } from "@prisma/client";
+import { faker } from "@faker-js/faker";
+import { countries, departments, designations }  from "../constants/seed-data.js";
 
 const prisma = new PrismaClient();
 
