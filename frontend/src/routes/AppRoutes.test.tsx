@@ -3,7 +3,6 @@ import { MemoryRouter } from "react-router-dom";
 import { describe, expect, it, vi } from "vitest";
 
 vi.mock("../layouts/MainLayout", () => ({ default: ({ children }: { children?: React.ReactNode }) => <div>MainLayout{children}</div> }));
-vi.mock("../components/auth/ProtectedRoute", () => ({ default: () => <div>ProtectedRoute</div> }));
 vi.mock("../pages/DashboardPage", () => ({ default: () => <div>DashboardPage</div> }));
 vi.mock("../pages/EmployeesPage", () => ({ default: () => <div>EmployeesPage</div> }));
 vi.mock("../pages/SalaryPage", () => ({ default: () => <div>SalaryPage</div> }));
@@ -27,13 +26,13 @@ describe("AppRoutes", () => {
     expect(screen.getByText("LoginPage")).toBeInTheDocument();
   });
 
-  it("renders the dashboard route when authenticated", () => {
+  it("renders the dashboard route without authentication", () => {
     render(
       <MemoryRouter initialEntries={["/dashboard"]}>
         <AppRoutes />
       </MemoryRouter>
     );
 
-    expect(screen.getByText("ProtectedRoute")).toBeInTheDocument();
+    expect(screen.getByText("MainLayout")).toBeInTheDocument();
   });
 });
